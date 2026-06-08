@@ -16,8 +16,14 @@ function createGoogleCalendarLink(title) {
 async function parseEmail() {
     const email = document.getElementById("email-box").value;
 
+    if (!email.trim()) {
+        alert("Please paste an email first.");
+        return;
+    }
+
     document.getElementById("task-list").innerHTML =
-        "<li>Extracting tasks... please wait</li>";
+        "<li>Processing email...</li>";
+
     showTab("tasks");
 
     try {
@@ -34,27 +40,17 @@ async function parseEmail() {
 
         const data = await response.json();
 
-        if (data.error) {
-            document.getElementById("task-list").innerHTML =
-                `<li>Error: ${data.error}</li>`;
-            return;
-        }
-
         let cleanText = data.result
             .replace("```json", "")
             .replace("```", "")
             .trim();
-
+        
+        console.log("AI result:", data.result);
+        
         const parsed = JSON.parse(cleanText);
 
         document.getElementById("task-list").innerHTML =
-    "<li>Processing email...</li>";
-
-        if (!email.trim()) {
-             alert("Please paste an email first.");
-            return;
-        
-        }
+            parsed.tasks.map(task => `<li>${task}</li>`).join("");
 
         document.getElementById("calendar-list").innerHTML =
             parsed.calendar.map(event => {
@@ -64,6 +60,7 @@ async function parseEmail() {
 
     } catch (error) {
         console.error(error);
+
         document.getElementById("task-list").innerHTML =
             `<li>Error: ${error.message}</li>`;
     }

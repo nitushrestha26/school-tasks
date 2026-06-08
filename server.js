@@ -27,24 +27,18 @@ app.post("/extract-tasks", async (req, res) => {
         const response = await client.messages.create({
             model: "claude-sonnet-4-6",
             max_tokens: 1024,
-            messages: [
+           messages: [
                 {
                     role: "user",
                     content: `
-Extract parent tasks and calendar events from this school email.
+Extract tasks and calendar events from this school email.
 
-Return ONLY JSON:
+Return ONLY valid JSON. No markdown. No explanation.
+
+Format:
 {
-  "tasks": [
-  "Bring calculator",
-  "Submit permission slip"
-  ],
-  "calendar": [
-    {
-        "title": "Parents Evening",
-        "date": "2026-06-15"
-        }
-    ]
+  "tasks": ["task text"],
+  "calendar": ["date: event text"]
 }
 
 Email:
@@ -52,6 +46,7 @@ ${email}
 `
                 }
             ]
+            
         });
 
         res.json({
