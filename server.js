@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const Anthropic = require("@anthropic-ai/sdk").default;
+const path = require("path");
 
 dotenv.config();
 
@@ -9,13 +10,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 const client = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY
 });
 
 app.get("/", (req, res) => {
-    res.send("Server is working!");
+    res.sendFil(path.join(__dirname, "index.html"));
 });
 
 app.post("/extract-tasks", async (req, res) => {
