@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Email → Tasks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>School Email → Tasks</h1>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <button onclick="showTab('input')">Input</button>
+        <button onclick="showTab('tasks')">Tasks</button>
+        <button onclick="showTab('calendar')">Calendar</button>
+    </div>
+
+    <!-- INPUT TAB -->
+    <div id="input" class="tab-content">
+        <h2>Paste School Email</h2>
+
+        <textarea
+            id="email-box"
+            rows="12"
+            placeholder="Paste school email here..."
+        ></textarea>
+
+        <br><br>
+
+        <button onclick="parseEmail()">
+            Extract Tasks
+        </button>
+    </div>
+
+    <!-- TASKS TAB -->
+    <div id="tasks" class="tab-content" style="display:none;">
+        <h2>Tasks Found</h2>
+
+        <ul id="task-list">
+            <li>No tasks yet</li>
+        </ul>
+    </div>
+
+    <!-- CALENDAR TAB -->
+    <div id="calendar" class="tab-content" style="display:none;">
+        <h2>Calendar Events</h2>
+
+        <ul id="calendar-list">
+            <li>No events yet</li>
+        </ul>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
+

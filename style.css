@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.tabs {
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+}
+
+.tab-content {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
