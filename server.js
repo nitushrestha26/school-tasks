@@ -35,8 +35,14 @@ Extract parent tasks and calendar events from this school email.
 
 Return ONLY JSON:
 {
-  "tasks": [],
-  "calendar": []
+  "tasks": [
+  "Pay £4 for shool trip",
+  "Prepare packed luch"
+  "Pack water bottle"
+  ],
+  "calendar": [
+  "Friday: School trip",
+  "Wednesday: Payment deadline £4"]
 }
 
 Email:
