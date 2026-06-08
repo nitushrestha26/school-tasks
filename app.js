@@ -14,67 +14,51 @@ function createGoogleCalendarLink(title) {
 }
 
 async function parseEmail() {
+    const email = document.getElementById("email-box").value;
 
-    const email =
-        document.getElementById("email-box").value;
+    document.getElementById("task-list").innerHTML =
+        "<li>Extracting tasks... please wait</li>";
+    showTab("tasks");
 
     try {
-
         const response = await fetch(
-    "https://school-tasks.onrender.com/extract-tasks",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email
-        })
-    }
-);
+            "https://school-tasks.onrender.com/extract-tasks",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email })
+            }
+        );
+
         const data = await response.json();
 
-        let cleanText = data.result
-    .replace("```json", "")
-    .replace("```", "")
-    .trim();
-
-const parsed = JSON.parse(cleanText);
-
-console.log(parsed);
-
-
-document.getElementById("task-list").innerHTML =
-    parsed.tasks.map(task => {
-        if (typeof task === "string") {
-            return `<li>${task}</li>`;
+        if (data.error) {
+            document.getElementById("task-list").innerHTML =
+                `<li>Error: ${data.error}</li>`;
+            return;
         }
-        return `<li>${task.title || task.task || JSON.stringify(task)}</li>`;
-    }).join("");
 
-document.getElementById("calendar-list").innerHTML =
-    parsed.calendar.map(event => {
-        const link = createGoogleCalendarLink(event);
+        let cleanText = data.result
+            .replace("```json", "")
+            .replace("```", "")
+            .trim();
 
+        const parsed = JSON.parse(cleanText);
 
-        return `
-            <li>
-            ${event}
-            <a href="${link}" target="_blank">
-                Add to Calendar
-            </a>
-        </li>
-        ';
-    }).join("");
+        document.getElementById("task-list").innerHTML =
+            parsed.tasks.map(task => `<li>${task}</li>`).join("");
 
-showTab("tasks");
+        document.getElementById("calendar-list").innerHTML =
+            parsed.calendar.map(event => {
+                const link = createGoogleCalendarLink(event);
+                return `<li>${event} <a href="${link}" target="_blank">Add to Calendar</a></li>`;
+            }).join("");
 
     } catch (error) {
-
         console.error(error);
-
-        alert(
-            "Backend error. Check server terminal."
-        );
+        document.getElementById("task-list").innerHTML =
+            `<li>Error: ${error.message}</li>`;
     }
 }
