@@ -48,7 +48,13 @@ async function parseEmail() {
         const parsed = JSON.parse(cleanText);
 
         document.getElementById("task-list").innerHTML =
-            parsed.tasks.map(task => `<li>${task}</li>`).join("");
+    "<li>Processing email...</li>";
+
+        if (!email.trim()) {
+             alert("Please paste an email first.");
+            return;
+        
+        }
 
         document.getElementById("calendar-list").innerHTML =
             parsed.calendar.map(event => {
