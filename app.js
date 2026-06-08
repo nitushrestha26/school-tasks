@@ -15,18 +15,17 @@ async function parseEmail() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/extract-tasks",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email
-                })
-            }
-        );
-
+    "https://school-tasks.onrender.com/extract-tasks",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email
+        })
+    }
+);
         const data = await response.json();
 
         let cleanText = data.result
