@@ -7,6 +7,12 @@ function showTab(tabId) {
 
     document.getElementById(tabId).style.display = "block";
 }
+
+function createGoogleCalendarLink(title) {
+    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="
+        + encodeURIComponent(title);
+}
+
 async function parseEmail() {
 
     const email =
@@ -48,10 +54,17 @@ document.getElementById("task-list").innerHTML =
 
 document.getElementById("calendar-list").innerHTML =
     parsed.calendar.map(event => {
-        if (typeof event === "string") {
-            return `<li>${event}</li>`;
-        }
-        return `<li>${event.title || event.event || JSON.stringify(event)}</li>`;
+        const link = createGoogleCalendarLink(event);
+
+
+        return `
+            <li>
+            ${event}
+            <a href="${link}" target="_blank">
+                Add to Calendar
+            </a>
+        </li>
+        ';
     }).join("");
 
 showTab("tasks");
